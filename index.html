@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Devansh Khandar — Electronics Engineer, Embedded Systems, Robotics Builder. World Top-10 CanSat, ISRO AIR 1.">
+    <title>Devansh Khandar — Engineer &amp; Builder</title>
+    <!-- Open Graph -->
+    <meta property="og:title" content="Devansh Khandar — Engineer & Builder">
+    <meta property="og:description" content="Electronics Engineer · Embedded Systems · Robotics Builder. World Top-10 CanSat (AAS/NASA), ISRO AIR 1, Mark Walker Best Ground Station Award.">
+    <meta property="og:image" content="https://REPLACE-WITH-YOUR-DOMAIN/assets/cansat-hardware.jpg">
+    <meta property="og:url" content="https://REPLACE-WITH-YOUR-DOMAIN/">
+    <meta property="og:type" content="website">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Devansh Khandar — Engineer & Builder">
+    <meta name="twitter:description" content="Electronics Engineer · Embedded Systems · Robotics. World Top-10 CanSat, ISRO AIR 1.">
+    <meta name="twitter:image" content="https://REPLACE-WITH-YOUR-DOMAIN/assets/cansat-hardware.jpg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="launch-overlay" id="launchOverlay">
+        <div class="launch-scene" id="launchScene">
+            <!-- Real CanSat launch video background -->
+            <video class="launch-video-bg" id="launchVideo" muted playsinline preload="auto">
+                <source src="assets/cansat-launch-video.mp4" type="video/mp4">
+            </video>
+            <!-- Dark overlay for readability -->
+            <div class="launch-video-overlay"></div>
+            <!-- HUD Frame -->
+            <div class="hud-frame">
+                <div class="hud-corner hud-tl"></div>
+                <div class="hud-corner hud-tr"></div>
+                <div class="hud-corner hud-bl"></div>
+                <div class="hud-corner hud-br"></div>
+                <div class="hud-data hud-data-left">
+                    <span>ALT: 0.00 km</span>
+                    <span>VEL: 0.00 m/s</span>
+                    <span>FUEL: 100%</span>
+                </div>
+                <div class="hud-data hud-data-right">
+                    <span>LAT: 18.9220°N</span>
+                    <span>LON: 72.8347°E</span>
+                    <span>STATUS: NOMINAL</span>
+                </div>
+            </div>
+            <!-- Side panels: countdown left, tagline right -->
+            <div class="launch-sides" id="launchSides">
+                <div class="launch-side-left">
+                    <div class="countdown-label">DK PORTFOLIO</div>
+                    <div class="countdown-timer" id="countdownTimer">T-00:05</div>
+                    <div class="countdown-status" id="countdownStatus">SYSTEMS CHECK</div>
+                </div>
+                <div class="launch-side-right">
+                    <div class="launch-tagline-pre">BRACE YOURSELF</div>
+                    <div class="launch-tagline">ELECTRIFYING<br>LAUNCH</div>
+                    <div class="launch-tagline-sub">DEVANSH KHANDAR &bull; ENGINEER &amp; BUILDER</div>
+                </div>
+            </div>
+        </div>
+        <!-- White flash overlay -->
+        <div class="launch-flash" id="launchFlash"></div>
+        <button class="launch-skip" id="launchSkip">SKIP &rarr;</button>
+    </div>
+
+    <!-- ========== MAIN SITE ========== -->
+    <!-- Subtle grid matrix background -->
+    <div class="grid-matrix" aria-hidden="true"></div>
+    <!-- Interactive particle canvas with cursor connections -->
+    <canvas class="particle-canvas" id="particleCanvas" aria-hidden="true"></canvas>
+    <div class="starfield" id="starfield"></div>
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+
+    <!-- NAVBAR -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo"><span class="accent">&lt;</span>DK<span class="accent">/&gt;</span></a>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" title="Toggle light/dark theme">
+                <svg class="theme-icon sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                <svg class="theme-icon moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            </button>
+            <div class="nav-links" id="navLinks">
+                <a href="#about" class="nav-link">About</a>
+                <a href="#experience" class="nav-link">Experience</a>
+                <a href="#projects" class="nav-link">Projects</a>
+                <a href="#leadership" class="nav-link">Leadership</a>
+                <a href="#skills" class="nav-link">Skills</a>
+                <a href="#awards" class="nav-link">Awards</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </div>
+            <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false" aria-controls="navLinks"><span></span><span></span><span></span></button>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero" id="hero">
+        <div class="orbital-ring ring-1"></div>
+        <div class="orbital-ring ring-2"></div>
+        <div class="orbital-ring ring-3"></div>
+        <svg class="hero-circuit" viewBox="0 0 1440 900" preserveAspectRatio="none">
+            <line x1="0" y1="300" x2="350" y2="300" stroke="rgba(0,229,255,0.05)" stroke-width="1"/>
+            <line x1="350" y1="300" x2="400" y2="250" stroke="rgba(0,229,255,0.05)" stroke-width="1"/>
+            <line x1="400" y1="250" x2="700" y2="250" stroke="rgba(0,229,255,0.05)" stroke-width="1"/>
+            <line x1="1440" y1="600" x2="1050" y2="600" stroke="rgba(0,229,255,0.05)" stroke-width="1"/>
+            <line x1="1050" y1="600" x2="1000" y2="650" stroke="rgba(0,229,255,0.05)" stroke-width="1"/>
+            <line x1="1000" y1="650" x2="750" y2="650" stroke="rgba(0,229,255,0.05)" stroke-width="1"/>
+            <circle cx="350" cy="300" r="3" fill="rgba(0,229,255,0.12)"/>
+            <circle cx="700" cy="250" r="3" fill="rgba(0,229,255,0.12)"/>
+            <circle cx="1050" cy="600" r="3" fill="rgba(0,229,255,0.12)"/>
+            <circle cx="750" cy="650" r="3" fill="rgba(0,229,255,0.12)"/>
+        </svg>
+        <div class="hero-content">
+            <div class="hero-badge">ELECTRONICS &bull; ROBOTICS &bull; EDGE AI</div>
+            <h1 class="hero-name" id="heroName">DEVANSH KHANDAR</h1>
+            <p class="hero-tagline" id="typewriter">&gt; Electronics Engineer &bull; Embedded Systems &bull; Robotics Builder</p>
+            <div class="hero-cta">
+                <a href="#projects" class="cta-button">View Projects</a>
+                <a href="Devansh_Resume.pdf" download class="btn-outline btn-resume"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;margin-right:6px;vertical-align:middle;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Resume</a>
+                <a href="#contact" class="btn-outline">Get in Touch</a>
+            </div>
+        </div>
+        <div class="hero-scroll-indicator"><span>SCROLL</span><div class="scroll-chevron"></div></div>
+    </section>
+
+    <!-- PORTAL 1: SATELLITE -->
+    <section class="scroll-portal" id="portal-satellite" data-portal="satellite">
+        <div class="portal-sticky">
+            <div class="portal-svg-wrap" id="satelliteSvg">
+                <svg viewBox="0 0 800 600" class="portal-illustration">
+                    <defs>
+                        <linearGradient id="panelGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1a3a5c"/><stop offset="50%" stop-color="#0d2847"/><stop offset="100%" stop-color="#0a1f3a"/></linearGradient>
+                        <linearGradient id="panelCellGrad" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#1e5080"/><stop offset="100%" stop-color="#0e3050"/></linearGradient>
+                        <linearGradient id="bodyGrad" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#3a3a4a"/><stop offset="50%" stop-color="#2a2a35"/><stop offset="100%" stop-color="#1a1a25"/></linearGradient>
+                        <radialGradient id="glowGrad" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#00e5ff" stop-opacity="0.6"/><stop offset="100%" stop-color="#00e5ff" stop-opacity="0"/></radialGradient>
+                        <filter id="softGlow"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+                    </defs>
+                    <g class="sat-panel-left">
+                        <rect x="80" y="245" width="220" height="110" rx="3" fill="url(#panelGrad)" stroke="#4a6a8a" stroke-width="1.5"/>
+                        <rect x="88" y="252" width="32" height="32" rx="1" fill="url(#panelCellGrad)" stroke="#2a5070" stroke-width="0.5"/><rect x="124" y="252" width="32" height="32" rx="1" fill="url(#panelCellGrad)" stroke="#2a5070" stroke-width="0.5"/><rect x="160" y="252" width="32" height="32" rx="1" fill="url(#panelCellGrad)" stroke="#2a5070" stroke-width="0.5"/><rect x="196" y="252" width="32" height="32" rx="1" fill="url(#panelCellGrad)" stroke="#2a5070" stroke-width="0.5"/><rect x="232" y="252" width="32" height="32" rx="1" fill="url(#panelCellGrad)" stroke="#2a5070" stroke-width="0.5"/><rect x="268" y="252" width="26" height="32" rx="1" fill="url(#panelCellGrad)" stroke="#2a5070" stroke-width="0.5"/>
+                        <rect x="88" y="290" width="32" height="32" rx="1" fill="url(#panelCellGrad)" stroke="#2a5070" stroke-width="0.5"/><rect x="124" y="290" width="32" height="32" rx="1" fill="url(#panelCellGrad)" stroke="#2a5070" stroke-width="0.5"/><rect x="160" y="290" width="32" height="32" rx="1" fill="url(#panelCellGrad)" stroke="#2a5070" stroke-width="0.5"/><rect x="196" y="290" width="32" height="32" rx="1" fill="url(#panelCellGrad)" stroke="#2a5070" stroke-width="0.5"/><rect x="232" y="290" width="32" height="32" rx="1" fill="url(#panelCellGrad)" stroke="#2a5070" stroke-width="0.5"/><rect x="268" y="290" width="26" height="32" rx="1" fill="url(#panelCellGrad)" stroke="#2a5070" stroke-width="0.5"/>
+                        <line x1="190" y1="248" x2="190" y2="352" stroke="#5a7a9a" stroke-width="0.8"/><line x1="85" y1="300" x2="297" y2="300" stroke="#5a7a9a" stroke-width="0.5" stroke-dasharray="2 4"/>
+                        <rect x="295" y="280" width="12" height="40" rx="2" fill="#3a4a5a" stroke="#5a6a7a" stroke-width="1"/>
+                    </g>
+                    <g class="sat-panel-right">
+                        <rect x="500" y="245" width="220" height="110" rx="3" fill="url(#panelGrad)" stroke="#4a6a8a" stroke-width="1.5"/>
+                        <rect x="508" y="252" width="26" height="32" rx="1" fill="url(#panelCellGrad)" stroke="#2a5070" stroke-width="0.5"/><rect x="538" y="252" width="32" height="32" rx="1" fill="url(#panelCellGrad)" stroke="#2a5070" stroke-width="0.5"/><rect x="574" y="252" width="32" height="32" rx="1" fill="url(#panelCellGrad)" stroke="#2a5070" stroke-width="0.5"/><rect x="610" y="252" width="32" height="32" rx="1" fill="url(#panelCellGrad)" stroke="#2a5070" stroke-width="0.5"/><rect x="646" y="252" width="32" height="32" rx="1" fill="url(#panelCellGrad)" stroke="#2a5070" stroke-width="0.5"/><rect x="682" y="252" width="32" height="32" rx="1" fill="url(#panelCellGrad)" stroke="#2a5070" stroke-width="0.5"/>
+                        <rect x="508" y="290" width="26" height="32" rx="1" fill="url(#panelCellGrad)" stroke="#2a5070" stroke-width="0.5"/><rect x="538" y="290" width="32" height="32" rx="1" fill="url(#panelCellGrad)" stroke="#2a5070" stroke-width="0.5"/><rect x="574" y="290" width="32" height="32" rx="1" fill="url(#panelCellGrad)" stroke="#2a5070" stroke-width="0.5"/><rect x="610" y="290" width="32" height="32" rx="1" fill="url(#panelCellGrad)" stroke="#2a5070" stroke-width="0.5"/><rect x="646" y="290" width="32" height="32" rx="1" fill="url(#panelCellGrad)" stroke="#2a5070" stroke-width="0.5"/><rect x="682" y="290" width="32" height="32" rx="1" fill="url(#panelCellGrad)" stroke="#2a5070" stroke-width="0.5"/>
+                        <line x1="610" y1="248" x2="610" y2="352" stroke="#5a7a9a" stroke-width="0.8"/><line x1="503" y1="300" x2="717" y2="300" stroke="#5a7a9a" stroke-width="0.5" stroke-dasharray="2 4"/>
+                        <rect x="493" y="280" width="12" height="40" rx="2" fill="#3a4a5a" stroke="#5a6a7a" stroke-width="1"/>
+                    </g>
+                    <rect x="310" y="220" width="180" height="160" rx="6" fill="url(#bodyGrad)" stroke="#5a5a6a" stroke-width="2"/>
+                    <rect x="325" y="235" width="60" height="45" rx="3" fill="#0f1520" stroke="#3a4a5a" stroke-width="1"/><rect x="325" y="235" width="60" height="12" rx="2" fill="#1a2a3a"/>
+                    <rect x="395" y="235" width="80" height="20" rx="2" fill="#0f1520" stroke="#3a4a5a" stroke-width="0.8"/><text x="405" y="249" fill="#3a6a8a" font-family="monospace" font-size="8">TELEMETRY</text>
+                    <rect x="395" y="265" width="80" height="50" rx="3" fill="#0a1520" stroke="#2a4a5a" stroke-width="0.8"/>
+                    <rect x="410" y="275" width="50" height="30" rx="2" fill="#1a2535" stroke="#4a6a7a" stroke-width="0.8"/><text x="420" y="294" fill="#5a8aaa" font-family="monospace" font-size="7">MCU-32</text>
+                    <circle cx="335" cy="295" r="3" fill="#00e5ff" filter="url(#softGlow)"/><circle cx="345" cy="295" r="3" fill="#38f9d7" opacity="0.6"/><circle cx="355" cy="295" r="3" fill="#ffb347" opacity="0.4"/>
+                    <rect x="325" y="310" width="60" height="55" rx="3" fill="#1a1a25" stroke="#3a3a4a" stroke-width="1"/><circle cx="355" cy="337" r="18" fill="none" stroke="#4a4a5a" stroke-width="1.5"/><circle cx="355" cy="337" r="10" fill="none" stroke="#3a3a4a" stroke-width="1" stroke-dasharray="3 2"/><circle cx="355" cy="337" r="3" fill="#2a3a4a"/>
+                    <rect x="395" y="325" width="80" height="40" rx="3" fill="#1a2025" stroke="#3a4a4a" stroke-width="1"/><rect x="400" y="330" width="22" height="30" rx="2" fill="#0a1a25" stroke="#2a4a5a" stroke-width="0.5"/><rect x="426" y="330" width="22" height="30" rx="2" fill="#0a1a25" stroke="#2a4a5a" stroke-width="0.5"/><rect x="452" y="330" width="18" height="30" rx="2" fill="#0a1a25" stroke="#2a4a5a" stroke-width="0.5"/><text x="400" y="370" fill="#3a5a6a" font-family="monospace" font-size="6">18650 CELLS</text>
+                    <line x1="400" y1="220" x2="400" y2="160" stroke="#6a6a7a" stroke-width="2"/><line x1="400" y1="170" x2="380" y2="155" stroke="#5a5a6a" stroke-width="1.5"/><line x1="400" y1="170" x2="420" y2="155" stroke="#5a5a6a" stroke-width="1.5"/><circle cx="400" cy="155" r="5" fill="none" stroke="#00e5ff" stroke-width="1" filter="url(#softGlow)"/><circle cx="400" cy="155" r="2" fill="#00e5ff" opacity="0.8"/>
+                    <path d="M 380 140 Q 400 125 420 140" fill="none" stroke="rgba(0,229,255,0.2)" stroke-width="1"/><path d="M 370 130 Q 400 110 430 130" fill="none" stroke="rgba(0,229,255,0.12)" stroke-width="1"/><path d="M 360 120 Q 400 95 440 120" fill="none" stroke="rgba(0,229,255,0.06)" stroke-width="1"/>
+                    <polygon points="375,380 425,380 435,410 365,410" fill="#2a2a35" stroke="#4a4a5a" stroke-width="1"/><ellipse cx="400" cy="410" rx="35" ry="8" fill="#1a1a25" stroke="#3a3a4a" stroke-width="0.8"/><ellipse cx="400" cy="420" rx="20" ry="12" fill="url(#glowGrad)" opacity="0.5"/>
+                    <g transform="translate(340, 195)"><path d="M -15 0 Q 0 -20 15 0" fill="none" stroke="#6a7a8a" stroke-width="2"/><line x1="0" y1="0" x2="0" y2="25" stroke="#5a6a7a" stroke-width="1.5"/></g>
+                </svg>
+            </div>
+            <div class="portal-text" id="portalText1">
+                <div class="portal-label">ENGINEERING PHILOSOPHY</div>
+                <div class="portal-heading">Building systems that<br><span class="gradient-text">sense, decide, and act.</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="section-padding content-section" id="about">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-left">
+                    <div class="about-photo reveal-scale">
+                        <img src="assets/devansh-headshot.jpg" alt="Devansh Khandar in DJS ARYA team jacket" loading="lazy">
+                    </div>
+                </div>
+                <div class="about-right">
+                    <span class="section-label reveal">About</span>
+                    <h2 class="section-title reveal delay-1">Engineer who builds<br><span class="gradient-text">complete systems</span></h2>
+                    <p class="body-text reveal delay-2">I'm a B.Tech student in Electronics &amp; Telecommunication with an Honors track in AI &amp; ML at <strong>DJ Sanghvi College of Engineering</strong>.</p>
+                    <p class="body-text reveal delay-3">From designing avionics that earned <strong>World Top-10</strong> rankings to deploying solar-powered AI surveillance systems, I build things that work under real-world constraints.</p>
+                    <div class="stat-grid reveal delay-3">
+                        <div class="stat-card"><div class="stat-number gradient-text" data-count="8.45">0</div><div class="stat-label">CGPA</div></div>
+                        <div class="stat-card"><div class="stat-number gradient-text" data-count="10">0</div><div class="stat-label">World Rank</div></div>
+                        <div class="stat-card"><div class="stat-number gradient-text" data-count="7">0</div><div class="stat-label">Projects</div></div>
+                        <div class="stat-card"><div class="stat-number gradient-text" data-count="300">0</div><div class="stat-label">Students Trained</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PORTAL 2: PCB -->
+    <section class="scroll-portal" id="portal-pcb" data-portal="pcb">
+        <div class="portal-sticky">
+            <div class="portal-svg-wrap" id="pcbSvg">
+                <svg viewBox="0 0 800 600" class="portal-illustration">
+                    <defs>
+                        <linearGradient id="pcbGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0a2a1a"/><stop offset="100%" stop-color="#0a3a20"/></linearGradient>
+                    </defs>
+                    <rect x="100" y="80" width="600" height="440" rx="8" fill="url(#pcbGrad)" stroke="#1a5a3a" stroke-width="2"/>
+                    <path d="M 150 150 H 300 V 200 H 450 V 150 H 600" fill="none" stroke="#c8a04a" stroke-width="2.5" stroke-linecap="round"/>
+                    <path d="M 150 250 H 250 V 300 H 400 V 350 H 550 V 300 H 650" fill="none" stroke="#c8a04a" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M 200 400 H 350 V 350 H 500 V 400 H 650" fill="none" stroke="#c8a04a" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M 150 450 H 300 V 420 H 500 V 460 H 650" fill="none" stroke="#b89040" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M 300 150 V 100" fill="none" stroke="#a88030" stroke-width="1"/><path d="M 450 150 V 120 H 550 V 100" fill="none" stroke="#a88030" stroke-width="1"/><path d="M 400 300 V 250 H 350 V 200" fill="none" stroke="#a88030" stroke-width="1"/>
+                    <rect x="310" y="180" width="90" height="70" rx="2" fill="#1a1a20" stroke="#3a3a4a" stroke-width="1.5"/><circle cx="325" cy="195" r="4" fill="none" stroke="#4a4a5a" stroke-width="1"/><text x="330" y="225" fill="#5a7a6a" font-family="monospace" font-size="8" font-weight="bold">STM32</text><text x="330" y="238" fill="#4a6a5a" font-family="monospace" font-size="6">F407VET6</text>
+                    <line x1="320" y1="178" x2="320" y2="170" stroke="#c8a04a" stroke-width="1.5"/><line x1="335" y1="178" x2="335" y2="170" stroke="#c8a04a" stroke-width="1.5"/><line x1="350" y1="178" x2="350" y2="170" stroke="#c8a04a" stroke-width="1.5"/><line x1="365" y1="178" x2="365" y2="170" stroke="#c8a04a" stroke-width="1.5"/><line x1="380" y1="178" x2="380" y2="170" stroke="#c8a04a" stroke-width="1.5"/>
+                    <line x1="320" y1="252" x2="320" y2="260" stroke="#c8a04a" stroke-width="1.5"/><line x1="335" y1="252" x2="335" y2="260" stroke="#c8a04a" stroke-width="1.5"/><line x1="350" y1="252" x2="350" y2="260" stroke="#c8a04a" stroke-width="1.5"/><line x1="365" y1="252" x2="365" y2="260" stroke="#c8a04a" stroke-width="1.5"/><line x1="380" y1="252" x2="380" y2="260" stroke="#c8a04a" stroke-width="1.5"/>
+                    <line x1="308" y1="195" x2="300" y2="195" stroke="#c8a04a" stroke-width="1.5"/><line x1="308" y1="210" x2="300" y2="210" stroke="#c8a04a" stroke-width="1.5"/><line x1="308" y1="225" x2="300" y2="225" stroke="#c8a04a" stroke-width="1.5"/><line x1="308" y1="240" x2="300" y2="240" stroke="#c8a04a" stroke-width="1.5"/>
+                    <line x1="402" y1="195" x2="410" y2="195" stroke="#c8a04a" stroke-width="1.5"/><line x1="402" y1="210" x2="410" y2="210" stroke="#c8a04a" stroke-width="1.5"/><line x1="402" y1="225" x2="410" y2="225" stroke="#c8a04a" stroke-width="1.5"/><line x1="402" y1="240" x2="410" y2="240" stroke="#c8a04a" stroke-width="1.5"/>
+                    <rect x="200" y="195" width="16" height="8" rx="1" fill="#c8a878" stroke="#a88858" stroke-width="0.5"/><rect x="200" y="215" width="16" height="8" rx="1" fill="#c8a878" stroke="#a88858" stroke-width="0.5"/><rect x="440" y="195" width="16" height="8" rx="1" fill="#c8a878" stroke="#a88858" stroke-width="0.5"/><rect x="440" y="215" width="16" height="8" rx="1" fill="#c8a878" stroke="#a88858" stroke-width="0.5"/><rect x="440" y="235" width="16" height="8" rx="1" fill="#c8a878" stroke="#a88858" stroke-width="0.5"/>
+                    <rect x="250" y="145" width="14" height="7" rx="1" fill="#2a2a30" stroke="#4a4a5a" stroke-width="0.5"/><rect x="480" y="145" width="14" height="7" rx="1" fill="#2a2a30" stroke="#4a4a5a" stroke-width="0.5"/>
+                    <rect x="420" y="280" width="20" height="10" rx="2" fill="#d0d0d0" stroke="#8a8a8a" stroke-width="0.8"/><text x="423" y="288" fill="#4a4a4a" font-family="monospace" font-size="5">8MHz</text>
+                    <g transform="translate(150,350)"><rect x="0" y="0" width="80" height="20" rx="2" fill="#2a2a30" stroke="#5a5a6a" stroke-width="1"/><circle cx="12" cy="10" r="3" fill="#c8a04a" stroke="#a88030" stroke-width="0.5"/><circle cx="24" cy="10" r="3" fill="#c8a04a" stroke="#a88030" stroke-width="0.5"/><circle cx="36" cy="10" r="3" fill="#c8a04a" stroke="#a88030" stroke-width="0.5"/><circle cx="48" cy="10" r="3" fill="#c8a04a" stroke="#a88030" stroke-width="0.5"/><circle cx="60" cy="10" r="3" fill="#c8a04a" stroke="#a88030" stroke-width="0.5"/><text x="5" y="35" fill="#3a6a4a" font-family="monospace" font-size="6">GPIO HEADER</text></g>
+                    <rect x="580" y="350" width="50" height="22" rx="3" fill="#3a3a3a" stroke="#6a6a6a" stroke-width="1.5"/><rect x="590" y="355" width="30" height="12" rx="1" fill="#1a1a1a"/><text x="582" y="387" fill="#3a6a4a" font-family="monospace" font-size="6">USB-C</text>
+                    <circle cx="300" cy="200" r="4" fill="#c8a04a" stroke="#0a2a1a" stroke-width="2"/><circle cx="300" cy="200" r="1.5" fill="#0a2a1a"/><circle cx="450" cy="200" r="4" fill="#c8a04a" stroke="#0a2a1a" stroke-width="2"/><circle cx="450" cy="200" r="1.5" fill="#0a2a1a"/><circle cx="400" cy="300" r="4" fill="#c8a04a" stroke="#0a2a1a" stroke-width="2"/><circle cx="400" cy="300" r="1.5" fill="#0a2a1a"/><circle cx="550" cy="300" r="4" fill="#c8a04a" stroke="#0a2a1a" stroke-width="2"/><circle cx="550" cy="300" r="1.5" fill="#0a2a1a"/>
+                    <rect x="600" y="120" width="12" height="6" rx="1" fill="#00ff88" opacity="0.8" filter="url(#softGlow)"/><text x="580" y="140" fill="#3a6a4a" font-family="monospace" font-size="5">PWR</text>
+                    <text x="550" y="490" fill="#2a5a3a" font-family="monospace" font-size="9">REV 3.2</text><text x="120" y="110" fill="#2a5a3a" font-family="monospace" font-size="7">DK-AVIONICS-MAIN</text>
+                    <circle cx="125" cy="105" r="8" fill="none" stroke="#2a5a3a" stroke-width="1"/><circle cx="125" cy="105" r="3" fill="#0a0a0f"/><circle cx="675" cy="105" r="8" fill="none" stroke="#2a5a3a" stroke-width="1"/><circle cx="675" cy="105" r="3" fill="#0a0a0f"/><circle cx="125" cy="495" r="8" fill="none" stroke="#2a5a3a" stroke-width="1"/><circle cx="125" cy="495" r="3" fill="#0a0a0f"/><circle cx="675" cy="495" r="8" fill="none" stroke="#2a5a3a" stroke-width="1"/><circle cx="675" cy="495" r="3" fill="#0a0a0f"/>
+                </svg>
+            </div>
+            <div class="portal-text" id="portalText2">
+                <div class="portal-label">DESIGN APPROACH</div>
+                <div class="portal-heading">From prototype to<br><span class="gradient-text">production systems.</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- EXPERIENCE (click-to-expand) -->
+    <section class="section-padding content-section" id="experience">
+        <div class="container">
+            <span class="section-label reveal">Experience</span>
+            <h2 class="section-title reveal delay-1">Professional <span class="gradient-text">Timeline</span></h2>
+            <div class="timeline">
+
+                <div class="timeline-item reveal-left">
+                    <div class="timeline-card glass-card expandable-card" data-expandable>
+                        <div class="card-header">
+                            <div class="timeline-date">Jun 2025 - Oct 2025</div>
+                            <h3 class="timeline-title">Electronics Trainee Engineer</h3>
+                            <h4 class="timeline-company">Prama Instruments Pvt. Ltd.</h4>
+                            <p class="body-text">Real-time weather monitoring system integrating 7+ sensors with custom hardware.</p>
+                            <div class="expand-indicator"><span>View Details</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+                        </div>
+                        <div class="card-details">
+                            <ul class="detail-list">
+                                <li>Developed a real-time weather monitoring system integrating sensors for temperature, pressure, humidity, wind speed, rainfall, UV index, and ambient light.</li>
+                                <li>Built a custom 3D-printed wind-vane with Hall sensors for accurate wind-direction measurement.</li>
+                                <li>Improved system calibration and data reliability through modular sensor validation and testing.</li>
+                            </ul>
+                            <div class="detail-doc">
+                                <h4 class="detail-heading">Completion Certificate</h4>
+                                <img src="assets/prama_certificate.jpg" alt="Prama Instruments Internship Certificate" class="cert-image" loading="lazy">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item reveal-left delay-1">
+                    <div class="timeline-card glass-card expandable-card" data-expandable>
+                        <div class="card-header">
+                            <div class="timeline-date">Jun 2024 - Jul 2024</div>
+                            <h3 class="timeline-title">R&amp;D Engineer + Robotics Trainer</h3>
+                            <h4 class="timeline-company">RoboKart</h4>
+                            <p class="body-text">Robotics training workshops across multiple colleges, 300+ students trained. Medal for Excellence by GUJCOST.</p>
+                            <div class="expand-indicator"><span>View Details</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+                        </div>
+                        <div class="card-details">
+                            <ul class="detail-list">
+                                <li>Conducted robotics training workshops across multiple colleges, teaching 300+ students.</li>
+                                <li>Delivered hands-on modules on sensors, automation, Arduino/WiFi systems, and introductory IoT.</li>
+                                <li>Led practical sessions on motion detection, home automation, servo control, and security systems.</li>
+                            </ul>
+                            <div class="detail-doc">
+                                <h4 class="detail-heading">Internship Letter</h4>
+                                <img src="assets/robokart_letter.jpg" alt="RoboKart Internship Letter" class="cert-image" loading="lazy">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- MARQUEE -->
+    <section class="marquee-section"><div class="marquee-track"><span class="marquee-item">EMBEDDED SYSTEMS</span><span class="marquee-separator">&#9670;</span><span class="marquee-item">CANSAT WORLD TOP-10</span><span class="marquee-separator">&#9670;</span><span class="marquee-item">EDGE AI</span><span class="marquee-separator">&#9670;</span><span class="marquee-item">DRONE AUTONOMY</span><span class="marquee-separator">&#9670;</span><span class="marquee-item">ISRO AIR 1</span><span class="marquee-separator">&#9670;</span><span class="marquee-item">ROS 2</span><span class="marquee-separator">&#9670;</span><span class="marquee-item">EMBEDDED SYSTEMS</span><span class="marquee-separator">&#9670;</span><span class="marquee-item">CANSAT WORLD TOP-10</span><span class="marquee-separator">&#9670;</span><span class="marquee-item">EDGE AI</span><span class="marquee-separator">&#9670;</span><span class="marquee-item">DRONE AUTONOMY</span><span class="marquee-separator">&#9670;</span><span class="marquee-item">ISRO AIR 1</span><span class="marquee-separator">&#9670;</span><span class="marquee-item">ROS 2</span><span class="marquee-separator">&#9670;</span></div></section>
+
+    <!-- PROJECTS (hover-to-preview) -->
+    <section class="section-padding content-section" id="projects">
+        <div class="container">
+            <span class="section-label reveal">Projects</span>
+            <h2 class="section-title reveal delay-1">Port<span class="gradient-text">folio</span></h2>
+            <div class="projects-showcase reveal delay-2">
+                <!-- LEFT: Numbered project list -->
+                <div class="project-list">
+                    <div class="project-list-item active" data-project="0">
+                        <span class="project-num">01</span>
+                        <span class="project-list-name">AI Farm Surveillance</span>
+                        <svg class="project-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </div>
+                    <div class="project-list-item" data-project="1">
+                        <span class="project-num">02</span>
+                        <span class="project-list-name">Return Prediction (i-RAGE)</span>
+                        <svg class="project-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </div>
+                    <div class="project-list-item" data-project="2">
+                        <span class="project-num">03</span>
+                        <span class="project-list-name">Safari Navigation</span>
+                        <svg class="project-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </div>
+                    <div class="project-list-item" data-project="3">
+                        <span class="project-num">04</span>
+                        <span class="project-list-name">ResQNet: Crisis Mgmt</span>
+                        <svg class="project-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </div>
+                    <div class="project-list-item" data-project="4">
+                        <span class="project-num">05</span>
+                        <span class="project-list-name">Drone Nav &amp; Charging</span>
+                        <svg class="project-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </div>
+                    <div class="project-list-item" data-project="5">
+                        <span class="project-num">06</span>
+                        <span class="project-list-name">Obstacle Avoiding Robot</span>
+                        <svg class="project-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </div>
+                    <div class="project-list-item" data-project="6">
+                        <span class="project-num">07</span>
+                        <span class="project-list-name">Aeroponics IoT</span>
+                        <svg class="project-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </div>
+                </div>
+
+                <!-- RIGHT: Preview panel -->
+                <div class="project-preview glass-card">
+                    <!-- Project 0 -->
+                    <div class="preview-panel active" data-preview="0">
+                        <div class="preview-badge">Featured &bull; Jul 2025 - Present</div>
+                        <h3 class="preview-title">AI-Based Solar-Powered Farm Surveillance</h3>
+                        <p class="preview-subtitle">EDGE AI &bull; SOLAR POWER &bull; IoT DETERRENCE</p>
+                        <ul class="detail-list">
+                            <li>Built a Raspberry Pi + Google Coral edge-AI unit for real-time detection of bats, boars, monkeys, and deer using a custom MobileNet-SSD model, achieving <strong>92% accuracy</strong> at under 200 ms latency.</li>
+                            <li>Powered the system entirely via solar panels with an integrated Battery Management System (BMS), battery storage, and DC-DC converters, enabling <strong>72-hour autonomous operation</strong> without external power.</li>
+                            <li>Automated ultrasonic, strobe-LED, and sprinkler-based deterrents through MQTT-triggered actions, reducing wildlife incursions by <strong>35%</strong> in pilot tests.</li>
+                            <li>Designed the system for continuous field deployment, combining edge inference, renewable power, and automated response into a single self-sustaining unit.</li>
+                        </ul>
+                        <div class="preview-tech"><span class="skill-tag">Raspberry Pi</span><span class="skill-tag">Google Coral</span><span class="skill-tag">MobileNet-SSD</span><span class="skill-tag">MQTT</span><span class="skill-tag">Solar BMS</span></div>
+                    </div>
+                    <!-- Project 1 -->
+                    <div class="preview-panel" data-preview="1">
+                        <div class="preview-badge">ML &bull; Finance</div>
+                        <h3 class="preview-title">Short-Horizon Return Prediction (i-RAGE)</h3>
+                        <p class="preview-subtitle">MACHINE LEARNING &bull; HIGH-FREQUENCY DATA &bull; GRADIENT BOOSTING</p>
+                        <ul class="detail-list">
+                            <li>Built a memory-optimized ML pipeline to predict short-horizon financial returns on ~4 GB of high-frequency market data, comprising <strong>2.4M+ samples</strong>.</li>
+                            <li>Engineered and benchmarked five prediction strategies, including gradient boosting ensembles, ridge regression, and rank-based transformations.</li>
+                            <li>Identified a <strong>44x prediction-scaling deficiency</strong> through statistical analysis, improving model output accuracy by approximately 10-50x.</li>
+                            <li>Developed automated diagnostic and validation tooling to ensure data integrity and reproducibility across iterative experiments.</li>
+                        </ul>
+                        <div class="preview-tech"><span class="skill-tag">Python</span><span class="skill-tag">Pandas</span><span class="skill-tag">NumPy</span><span class="skill-tag">Scikit-learn</span><span class="skill-tag">Gradient Boosting</span></div>
+                        <div class="preview-links" style="margin-top:16px;"><a href="https://github.com/DevanshKhandar/iRage-Short-Horizon-Return-Prediction-Challenge" target="_blank" class="btn-outline" style="font-size:12px;padding:8px 16px;display:inline-flex;align-items:center;gap:6px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>View Source Code</a></div>
+                    </div>
+                    <!-- Project 2 -->
+                    <div class="preview-panel" data-preview="2">
+                        <div class="preview-badge">Autonomous Systems</div>
+                        <h3 class="preview-title">Autonomous Safari Navigation System</h3>
+                        <p class="preview-subtitle">ESP32 &bull; EDGE AI &bull; GPS TRACKING &bull; RFID</p>
+                        <ul class="detail-list">
+                            <li>Developed an autonomous line-following vehicle using IR sensors and ESP32, capable of navigating a predefined safari track with high accuracy and real-time decision-making.</li>
+                            <li>Implemented a real-time tracking and visualization system integrating GPS and wireless communication to display vehicle trajectory, detected objects, and system status on a <strong>web-based dashboard</strong>.</li>
+                            <li>Designed an edge AI-based object detection pipeline using ESP32-CAM to identify objects along the track in real time.</li>
+                            <li>Integrated RFID-triggered event logging to automatically generate mission reports, capturing detected objects and completion status without manual intervention.</li>
+                            <li>Combined onboard sensing, wireless telemetry, and automated reporting into a single closed-loop system for autonomous field navigation.</li>
+                        </ul>
+                        <div class="preview-tech"><span class="skill-tag">ESP32</span><span class="skill-tag">ESP32-CAM</span><span class="skill-tag">IR Sensors</span><span class="skill-tag">GPS</span><span class="skill-tag">RFID</span><span class="skill-tag">Edge AI</span></div>
+                        <div class="preview-links" style="margin-top:16px;"><a href="https://github.com/DevanshKhandar/VorteX_Unplugged_3" target="_blank" class="btn-outline" style="font-size:12px;padding:8px 16px;display:inline-flex;align-items:center;gap:6px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>View Source Code</a></div>
+                    </div>
+                    <!-- Project 3 -->
+                    <div class="preview-panel" data-preview="3">
+                        <div class="preview-badge">IoT &bull; Crisis Response</div>
+                        <h3 class="preview-title">ResQNet: IoT Crisis Management</h3>
+                        <p class="preview-subtitle">BLE MESH &bull; DECENTRALIZED &bull; ZERO DATA LOSS</p>
+                        <ul class="detail-list">
+                            <li>Architected an end-to-end ESP32-based IoT crisis response system combining real-time event detection, geolocation tracking, and AI-assisted validation through a human-in-the-loop approach.</li>
+                            <li>Engineered a <strong>decentralized BLE mesh network</strong> for SOS relaying during network outages, with offline data caching and automatic cloud synchronization via gateway — <strong>zero data loss</strong>.</li>
+                            <li>Integrated multi-sensor monitoring — gas, water, rain, and accelerometer — for real-time anomaly detection and automated emergency alerts.</li>
+                            <li>Built a web-based monitoring dashboard providing real-time alerts, geolocation tracking, and incident reporting for responders.</li>
+                            <li>Designed for resilience during outages, ensuring continuous SOS relay and data integrity even without active network connectivity.</li>
+                        </ul>
+                        <div class="preview-tech"><span class="skill-tag">ESP32</span><span class="skill-tag">BLE Mesh</span><span class="skill-tag">MQTT</span><span class="skill-tag">REST API</span><span class="skill-tag">GPS</span><span class="skill-tag">Multi-Sensor</span></div>
+                    </div>
+                    <!-- Project 4 -->
+                    <div class="preview-panel" data-preview="4">
+                        <div class="preview-badge">Robotics &bull; Top 5 National</div>
+                        <h3 class="preview-title">Autonomous Drone Navigation &amp; Charging</h3>
+                        <p class="preview-subtitle">TEENSY 4.1 &bull; EDGE IMPULSE &bull; SENSOR FUSION</p>
+                        <ul class="detail-list">
+                            <li>Engineered a point-to-point autonomous drone using Teensy 4.1 MCU, ESP32-CAM for vision, GPS for waypoint navigation, HC-SR04 for obstacle sensing, and MPU6050 for attitude stabilization.</li>
+                            <li>Trained an ESP32-CAM image classification model in Edge Impulse to detect the charging pod with <strong>&gt;95% accuracy</strong> on-device.</li>
+                            <li>Designed and implemented a custom Flight Control System with real-time sensor fusion, enabling precise auto-docking to a solar-powered charging pod (<strong>landing error &lt;10 cm</strong>).</li>
+                            <li>Integrated feedback loops for landing accuracy and charge-status telemetry via Wi-Fi.</li>
+                            <li>Competed in a 48-hr Tech-a-Thon at TSEC Mumbai, achieving a <strong>Top 5 finish</strong> among 20+ teams.</li>
+                        </ul>
+                        <div class="preview-tech"><span class="skill-tag">Teensy 4.1</span><span class="skill-tag">ESP32-CAM</span><span class="skill-tag">Edge Impulse</span><span class="skill-tag">GPS</span><span class="skill-tag">MPU6050</span><span class="skill-tag">Sensor Fusion</span></div>
+                    </div>
+                    <!-- Project 5 -->
+                    <div class="preview-panel" data-preview="5">
+                        <div class="preview-badge">Embedded Systems</div>
+                        <h3 class="preview-title">Obstacle Avoiding Robot (Embedded C)</h3>
+                        <p class="preview-subtitle">ARDUINO &bull; ULTRASONIC &bull; SERVO SWEEP</p>
+                        <ul class="detail-list">
+                            <li>Integrated an HC-SR04 ultrasonic sensor on a <strong>180° servo sweep</strong> to continuously map the surroundings.</li>
+                            <li>Programmed Arduino in C with threshold-based logic triggering avoidance routines when any object enters a 20 cm detection zone.</li>
+                            <li>Implemented dynamic maneuvers: the robot scans both directions, compares clearances, and selects the optimal path.</li>
+                            <li>Tuned sensor sampling and servo sweep timing to achieve <strong>sub-100 ms reaction time</strong>, enabling navigation at up to 0.3 m/s.</li>
+                            <li>Validated over 50 obstacle courses with varying layouts, achieving a <strong>98% success rate</strong> in avoiding collisions.</li>
+                        </ul>
+                        <div class="preview-tech"><span class="skill-tag">Arduino (C)</span><span class="skill-tag">L293D</span><span class="skill-tag">HC-SR04</span><span class="skill-tag">Servo</span></div>
+                    </div>
+                    <!-- Project 6 -->
+                    <div class="preview-panel" data-preview="6">
+                        <div class="preview-badge">IoT &bull; Published Research</div>
+                        <h3 class="preview-title">Aeroponics Agriculture using IoT</h3>
+                        <p class="preview-subtitle">ESP32 &bull; SENSOR ARRAY &bull; BLYNK &bull; ISBN: 978-93-341-2968-7</p>
+                        <ul class="detail-list">
+                            <li>Designed a soilless aeroponics setup that delivers nutrient-rich mist directly to plant roots, reducing water use by up to <strong>90%</strong> over traditional irrigation.</li>
+                            <li>Integrated DHT22 (temp &amp; humidity), BH1750 (light), TDS &amp; pH sensors for real-time environmental monitoring and nutrient quality control.</li>
+                            <li>Programmed ESP32 in C/C++ to collect sensor data, execute threshold-based relay controls for misting and fans, and push telemetry to a Blynk dashboard.</li>
+                            <li>Enabled remote monitoring and manual override via Blynk app; set up alert notifications for low water, out-of-range pH, and temperature/humidity spikes.</li>
+                            <li>Validated through lab trials, maintaining optimal growing conditions continuously. <strong>Published in DJS STRIKE 2024-2025</strong> (ISBN: 978-93-341-2968-7).</li>
+                        </ul>
+                        <div class="preview-tech"><span class="skill-tag">ESP32</span><span class="skill-tag">DHT22</span><span class="skill-tag">BH1750</span><span class="skill-tag">TDS/pH</span><span class="skill-tag">Blynk IoT</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LEADERSHIP (click-to-expand) -->
+    <section class="section-padding content-section" id="leadership">
+        <div class="container">
+            <span class="section-label reveal">Leadership</span>
+            <h2 class="section-title reveal delay-1">Co-Curricular <span class="gradient-text">Activities</span></h2>
+            <div class="timeline">
+
+                <div class="timeline-item reveal-left">
+                    <div class="timeline-card glass-card expandable-card" data-expandable>
+                        <div class="card-header">
+                            <div class="timeline-date">Present</div>
+                            <h3 class="timeline-title">Electronics Senior (Avionics)</h3>
+                            <div class="status-badge">Active</div>
+                            <h4 class="timeline-company">DJS ARYA — Official CanSat Team</h4>
+                            <p class="body-text">Leading avionics, sensor integration, power, and comms. World #10, India #1, Asia #4.</p>
+                            <div class="expand-indicator"><span>View Details</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+                        </div>
+                        <div class="card-details">
+                            <h4 class="detail-heading">Technical Contributions</h4>
+                            <ul class="detail-list">
+                                <li>Design and route multi-layer PCBs in Altium Designer for compact avionics payload integration.</li>
+                                <li>Develop flight software on Teensy 4.1 and ESP32, integrating GY-91 IMU, BME680, and encoder feedback systems.</li>
+                                <li>Implement Kalman and complementary filter sensor fusion for high-frequency telemetry over XBee — field-tested up to <strong>1 km range</strong>.</li>
+                                <li>Build closed-loop PID control with SimpleFOC for BLDC motor actuation during mechanical deployment sequences.</li>
+                                <li>Built a custom ground station with real-time data visualization, antenna tracking, and telemetry management, winning the <strong>Mark Walker Best Ground Station Award 2026</strong>.</li>
+                            </ul>
+                            <h4 class="detail-heading">Competition Results</h4>
+                            <ul class="detail-list highlight-list">
+                                <li>Ranked <strong>1st in India, 4th in Asia, 10th worldwide (2026)</strong> at the International CanSat Competition among 400+ teams (AAS/NASA).</li>
+                                <li>Secured <strong>All India Rank 1</strong> among 70+ teams at IN-SPACe CanSat India (2024–25) by ASI/ISRO.</li>
+                                <li><strong>PDR:</strong> AIR #1, World Rank #5</li>
+                                <li><strong>CDR:</strong> AIR #1, 98.45% Global Score</li>
+                                <li><strong>Environment Test:</strong> 100% Global Score</li>
+                                <li><strong>FRR:</strong> 100% Global Score</li>
+                                <li><strong>PFR:</strong> 91.92% Global Score</li>
+                                <li><strong>Overall:</strong> Asia Rank #5, World Rank #15</li>
+                            </ul>
+                            <div class="awards-gallery" style="margin-top:20px;">
+                                <div class="gallery-item">
+                                    <img src="assets/cansat-hardware.jpg" alt="DJS ARYA CanSat payload with avionics, 3D-printed structure, and Indian flag" loading="lazy" class="gallery-image">
+                                    <span class="photo-caption">DJS ARYA CanSat payload</span>
+                                </div>
+                                <div class="gallery-item">
+                                    <img src="assets/devansh-field-testing.jpg" alt="Devansh inspecting avionics PCB during beach field testing" loading="lazy" class="gallery-image">
+                                    <span class="photo-caption">Avionics field testing</span>
+                                </div>
+                                <div class="gallery-item">
+                                    <img src="assets/cansat-payload.jpg" alt="CanSat avionics payload stack with PCB, sensors, parachute, and XBee antenna" loading="lazy" class="gallery-image">
+                                    <span class="photo-caption">CanSat avionics payload</span>
+                                </div>
+                                <div class="gallery-item">
+                                    <img src="assets/devansh-cansat-india.jpg" alt="Devansh holding the CanSat payload at IN-SPACe India competition" loading="lazy" class="gallery-image">
+                                    <span class="photo-caption">With the CanSat at IN-SPACe India</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item reveal-left delay-1">
+                    <div class="timeline-card glass-card expandable-card" data-expandable>
+                        <div class="card-header">
+                            <div class="timeline-date">Present</div>
+                            <h3 class="timeline-title">Treasurer</h3>
+                            <h4 class="timeline-company">DJS NOVA</h4>
+                            <p class="body-text">Managing end-to-end financial operations, budgeting, and accountability for technical events.</p>
+                            <div class="expand-indicator"><span>View Details</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+                        </div>
+                        <div class="card-details">
+                            <ul class="detail-list">
+                                <li>Own end-to-end financial management for the committee, including budgeting, expense tracking, and financial reporting across multiple college-wide events.</li>
+                                <li>Allocate budgets across events and initiatives based on priority and available funds, balancing competing requirements within committee constraints.</li>
+                                <li>Take financial decisions on sponsorships, vendor payments, and event expenditures, ensuring transparency and accountability in fund utilization.</li>
+                                <li>Maintain accurate financial records and reporting to keep the committee accountable to stakeholders.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item reveal-left delay-2">
+                    <div class="timeline-card glass-card expandable-card" data-expandable>
+                        <div class="card-header">
+                            <div class="timeline-date">Present</div>
+                            <h3 class="timeline-title">Placement Coordinator</h3>
+                            <h4 class="timeline-company">DJSCE</h4>
+                            <p class="body-text">Coordinating internship and placement drives, bridging industry and students.</p>
+                            <div class="expand-indicator"><span>View Details</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+                        </div>
+                        <div class="card-details">
+                            <ul class="detail-list">
+                                <li>Maintain and manage centralized student and recruiter databases, tracking placement status across placed, unplaced, and higher-education (MS)-bound students for real-time visibility.</li>
+                                <li>Serve as primary point of contact between recruiting companies and the department, coordinating placement schedules, pre-placement talks, and recruiter requirements end-to-end.</li>
+                                <li>Organize and drive pre-placement training initiatives to prepare students for aptitude tests, technical rounds, and interviews.</li>
+                                <li>Own interview-day logistics — scheduling candidate slots across multiple rounds, coordinating with company panels and faculty, and compiling and communicating results.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item reveal-left delay-3">
+                    <div class="timeline-card glass-card expandable-card" data-expandable>
+                        <div class="card-header">
+                            <div class="timeline-date">Aug 2024 - Aug 2025</div>
+                            <h3 class="timeline-title">Technical Dept. Member</h3>
+                            <h4 class="timeline-company">DJSCE IETE-ISF</h4>
+                            <p class="body-text">Hardware hackathons, PCB fabrication mentoring, KiCAD &amp; Fusion 360 workshops.</p>
+                            <div class="expand-indicator"><span>View Details</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+                        </div>
+                        <div class="card-details">
+                            <ul class="detail-list">
+                                <li><strong>En-Core 1.0 (Sept '24):</strong> Organized an 8-hour analog hackathon; set a PWM DC-motor speed-control challenge (20–90% duty cycle).</li>
+                                <li><strong>Unplugged 2.0 (Mar '25):</strong> Ran a 24-hour hardware hackathon, three-round event (PPT, KiCAD PCB design, hardware prototyping) focused on AI, IoT, and geospatial smart-city solutions; mentored teams on PCB fabrication and Fusion 360 enclosures.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section class="section-padding content-section" id="skills">
+        <div class="container">
+            <span class="section-label reveal">Skills</span>
+            <h2 class="section-title reveal delay-1">Technical <span class="gradient-text">Skills</span></h2>
+            <div class="skills-grid">
+                <div class="skill-category glass-card reveal">
+                    <div class="skill-category-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+                    <h3>Programming &amp; Backend</h3>
+                    <div class="tag-cloud">
+                        <span class="skill-tag">Python</span><span class="skill-tag">C / C++</span><span class="skill-tag">Java</span><span class="skill-tag">JavaScript</span><span class="skill-tag">HTML/CSS</span><span class="skill-tag">SQL</span><span class="skill-tag">MySQL</span><span class="skill-tag">PostgreSQL</span><span class="skill-tag">REST APIs</span><span class="skill-tag">MQTT</span>
+                    </div>
+                </div>
+                <div class="skill-category glass-card reveal delay-1">
+                    <div class="skill-category-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></div>
+                    <h3>ML, AI &amp; Data</h3>
+                    <div class="tag-cloud">
+                        <span class="skill-tag">PyTorch</span><span class="skill-tag">TF Lite</span><span class="skill-tag">OpenCV</span><span class="skill-tag">Scikit-learn</span><span class="skill-tag">XGBoost</span><span class="skill-tag">MobileNet-SSD</span><span class="skill-tag">Edge Impulse</span><span class="skill-tag">Pandas / NumPy</span><span class="skill-tag">Predictive Modeling</span><span class="skill-tag">Anomaly Detection</span><span class="skill-tag">Feature Engineering</span><span class="skill-tag">Tableau</span>
+                    </div>
+                </div>
+                <div class="skill-category glass-card reveal delay-2">
+                    <div class="skill-category-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div>
+                    <h3>Hardware &amp; Embedded</h3>
+                    <div class="tag-cloud">
+                        <span class="skill-tag">Teensy 4.1</span><span class="skill-tag">ESP32 / ESP32-CAM</span><span class="skill-tag">Raspberry Pi</span><span class="skill-tag">Google Coral</span><span class="skill-tag">Arduino</span><span class="skill-tag">Sensor Fusion</span><span class="skill-tag">GY-91 / BME680</span><span class="skill-tag">PID Control</span><span class="skill-tag">SimpleFOC</span><span class="skill-tag">Flight Software</span><span class="skill-tag">Hall Sensors</span>
+                    </div>
+                </div>
+                <div class="skill-category glass-card reveal delay-1">
+                    <div class="skill-category-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 11a9 9 0 0 1 9 9M4 4a16 16 0 0 1 16 16M4 18h.01"/></svg></div>
+                    <h3>Wireless &amp; Power</h3>
+                    <div class="tag-cloud">
+                        <span class="skill-tag">XBee (XCTU)</span><span class="skill-tag">LoRa</span><span class="skill-tag">BLE Mesh</span><span class="skill-tag">GPS</span><span class="skill-tag">RFID</span><span class="skill-tag">Telemetry</span><span class="skill-tag">Ground Station Design</span><span class="skill-tag">Solar Power</span><span class="skill-tag">BMS</span><span class="skill-tag">DC-DC Converters</span>
+                    </div>
+                </div>
+                <div class="skill-category glass-card reveal delay-2">
+                    <div class="skill-category-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></div>
+                    <h3>CAD &amp; Simulation</h3>
+                    <div class="tag-cloud">
+                        <span class="skill-tag">Altium Designer</span><span class="skill-tag">KiCAD</span><span class="skill-tag">Multi-layer PCB</span><span class="skill-tag">Fusion 360</span><span class="skill-tag">AutoCAD</span><span class="skill-tag">MATLAB</span><span class="skill-tag">Simulink</span><span class="skill-tag">ROS 2</span><span class="skill-tag">Gazebo</span><span class="skill-tag">3D Printing</span>
+                    </div>
+                </div>
+                <div class="skill-category glass-card reveal delay-3">
+                    <div class="skill-category-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
+                    <h3>Cloud &amp; Operations</h3>
+                    <div class="tag-cloud">
+                        <span class="skill-tag">AWS / GCP (Basics)</span><span class="skill-tag">Docker</span><span class="skill-tag">Linux</span><span class="skill-tag">Git / GitHub</span><span class="skill-tag">CI/CD</span><span class="skill-tag">Unit Testing</span><span class="skill-tag">Agile / Scrum</span><span class="skill-tag">JIRA</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AWARDS -->
+    <section class="section-padding content-section" id="awards">
+        <div class="container">
+            <span class="section-label reveal">Achievements</span>
+            <h2 class="section-title reveal delay-1">Awards &amp; <span class="gradient-text">Recognition</span></h2>
+            <div class="awards-grid">
+                <div class="award-card glass-card reveal"><div class="award-rank gradient-text">#10</div><h3 class="award-title">Intl CanSat Competition</h3><p class="award-detail">AAS/NASA — India #1, Asia #4, World #10</p></div>
+                <div class="award-card glass-card reveal delay-1"><div class="award-rank gradient-text">BEST</div><h3 class="award-title">Ground Station Award</h3><p class="award-detail">Mark Walker Award — International CanSat 2026</p></div>
+                <div class="award-card glass-card reveal delay-2"><div class="award-rank gradient-text">#1</div><h3 class="award-title">IN-SPACe CanSat India</h3><p class="award-detail">ASI/ISRO — AIR 1 among 70+ teams</p></div>
+            </div>
+            <div class="awards-gallery reveal delay-3">
+                <div class="gallery-item">
+                    <img src="assets/mark-walker-award.jpg" alt="Mark Walker Memorial Ground Station Award 2026 plaque from American Astronautical Society CanSat Competition" loading="lazy" class="gallery-image">
+                    <span class="photo-caption">Mark Walker Ground Station Award 2026</span>
+                </div>
+                <div class="gallery-item">
+                    <img src="assets/cansat-rocket-launch.jpg" alt="CanSat rocket launching at the International CanSat Competition field" loading="lazy" class="gallery-image">
+                    <span class="photo-caption">CanSat rocket launch</span>
+                </div>
+                <div class="gallery-item">
+                    <img src="assets/inspac-trophy.jpg" alt="Devansh Khandar holding IN-SPACe CanSat India 1st Place trophy" loading="lazy" class="gallery-image">
+                    <span class="photo-caption">IN-SPACe CanSat India - 1st Place</span>
+                </div>
+                <div class="gallery-item">
+                    <img src="assets/inspac-event.jpg" alt="Devansh Khandar at the IN-SPACe CanSat India competition event" loading="lazy" class="gallery-image">
+                    <span class="photo-caption">At the IN-SPACe Competition</span>
+                </div>
+                <div class="gallery-item">
+                    <img src="assets/cansat-launch-field.jpg" alt="CanSat competition launch field with rockets and American flag" loading="lazy" class="gallery-image">
+                    <span class="photo-caption">International CanSat launch field (USA)</span>
+                </div>
+                <div class="gallery-item">
+                    <img src="assets/arya-dignitary.jpg" alt="Devansh Khandar with IN-SPACe official at the CanSat India event" loading="lazy" class="gallery-image">
+                    <span class="photo-caption">With IN-SPACe officials</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="section-padding content-section" id="contact">
+        <div class="container">
+            <span class="section-label reveal">Contact</span>
+            <h2 class="section-title reveal delay-1">Let's <span class="gradient-text">Connect</span></h2>
+            <div class="contact-card glass-card reveal delay-2">
+                <p class="body-text" style="text-align:center;max-width:500px;margin:0 auto 36px;">Interested in collaborating on robotics, embedded systems, or edge-AI? Let's build something remarkable.</p>
+                <div class="contact-links">
+                    <a href="mailto:devansh.khandar18@gmail.com" class="contact-link"><span class="contact-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px;"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span>devansh.khandar18@gmail.com</a>
+                    <a href="https://www.linkedin.com/in/devansh-khandar-9573a521a/" target="_blank" class="contact-link"><span class="contact-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px;"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></span>LinkedIn</a>
+                    <a href="https://github.com/devanshkhandar" target="_blank" class="contact-link"><span class="contact-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px;"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></span>GitHub</a>
+                </div>
+                <div style="text-align:center;margin-top:36px;display:flex;justify-content:center;gap:16px;flex-wrap:wrap;">
+                    <a href="mailto:devansh.khandar18@gmail.com" class="cta-button">Send a Message</a>
+                    <a href="Devansh_Resume.pdf" download class="btn-outline btn-resume"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;margin-right:6px;vertical-align:middle;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Resume</a>
+                    <a href="https://drive.google.com/drive/folders/1wqJOQzIAMGZxPzpxnPG8Qfxp93nVoXsx?usp=drive_link" target="_blank" class="btn-outline">View Certificates</a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER TOP BAR -->
+    <div class="footer-topbar">
+        <div class="container footer-topbar-content">
+            <div class="footer-topbar-links">
+                <a href="https://github.com/devanshkhandar" target="_blank" class="footer-topbar-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;vertical-align:middle;margin-right:4px;"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg> GitHub</a>
+                <a href="https://www.linkedin.com/in/devansh-khandar-9573a521a/" target="_blank" class="footer-topbar-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;vertical-align:middle;margin-right:4px;"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg> LinkedIn</a>
+            </div>
+            <span class="footer-topbar-copy">&copy; 2026 Devansh Khandar. All rights reserved.</span>
+        </div>
+    </div>
+
+    <!-- MAIN FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-main">
+                <div class="footer-quote-area">
+                    <h2 class="footer-quote reveal-scale">Anyone can build something that works once.<br>I build things that keep working.</h2>
+                    <a href="mailto:devansh.khandar18@gmail.com" class="footer-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;margin-right:6px;vertical-align:middle;"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>devansh.khandar18@gmail.com</a>
+                </div>
+                <div class="footer-social-icons">
+                    <a href="https://github.com/devanshkhandar" target="_blank" class="footer-icon-btn" aria-label="GitHub"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
+                    <a href="https://www.linkedin.com/in/devansh-khandar-9573a521a/" target="_blank" class="footer-icon-btn" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+                    <a href="mailto:devansh.khandar18@gmail.com" class="footer-icon-btn" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></a>
+                </div>
+            </div>
+            <div class="footer-divider"></div>
+            <div class="footer-bottom">
+                <span class="footer-made">Made with <span style="color:var(--accent-cyan);">&hearts;</span> Devansh</span>
+                <div class="footer-bottom-right">
+                    <a href="privacy.html" class="footer-bottom-link">Privacy</a>
+                    <span class="footer-dot">&middot;</span>
+                    <a href="terms.html" class="footer-bottom-link">Terms</a>
+                    <span class="footer-dot">&middot;</span>
+                    <span class="footer-copy">&copy; 2026 Devansh Khandar</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+</body>
+</html>
