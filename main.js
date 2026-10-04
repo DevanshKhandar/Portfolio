@@ -498,36 +498,146 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* ============================================================
-     SCROLLING GALLERY & LIGHTBOX
+     COVER FLOW GALLERY & LIGHTBOX
      ============================================================ */
-  const gallerySlides = document.querySelectorAll('.scroll-gallery-slide');
-  const galleryTrack = document.getElementById('galleryTrack');
-  const galleryIndicator = document.getElementById('galleryIndicator');
+  const cfSlides = document.querySelectorAll('.cf-slide');
+  const cfCounter = document.getElementById('cfCounter');
   const lightboxModal = document.getElementById('lightboxModal');
   const lightboxImage = document.getElementById('lightboxImage');
   const lightboxCaption = document.getElementById('lightboxCaption');
 
-  if (gallerySlides.length > 0 && lightboxModal) {
-    // Build image data from the first half (original set, not duplicates)
-    const totalOriginal = gallerySlides.length / 2;
-    const galleryImages = [];
-    for (let i = 0; i < totalOriginal; i++) {
-      const slide = gallerySlides[i];
-      galleryImages.push({
+  if (cfSlides.length > 0 && lightboxModal) {
+    let currentIndex = 0;
+    const totalSlides = cfSlides.length;
+    let autoPlayInterval;
+
+    // Build image data
+    const galleryImages = Array.from(cfSlides).map(slide => {
+      return {
         src: slide.querySelector('img').src,
-        caption: slide.dataset.caption
+        caption: slide.querySelector('.cf-caption-title').textContent + ' - ' + slide.querySelector('.cf-caption-sub').textContent
+      };
+    });
+
+    let progress = 0;
+    let targetProgress = 0;
+    let animationFrameId;
+
+    function renderCoverFlow() {
+      // Smooth lerp for buttery transitions
+      progress += (targetProgress - progress) * 0.05;
+
+      cfSlides.forEach((slide, i) => {
+        // Calculate shortest distance on a circle
+        let diff = (i - progress) % totalSlides;
+        if (diff < -totalSlides / 2) diff += totalSlides;
+        if (diff > totalSlides / 2) diff -= totalSlides;
+
+        let absX = Math.abs(diff);
+        let sign = Math.sign(diff);
+
+        let translateX, scale, blur, opacity, rotateY, zIndex;
+        zIndex = Math.round(100 - absX * 10);
+
+        if (absX <= 1) {
+          translateX = sign * absX * 150;
+          scale = 1.2 - absX * 0.35; // 1.2 to 0.85
+          blur = absX * 1.5;
+          opacity = 1 - absX * 0.2;
+          rotateY = -sign * absX * 25;
+        } else if (absX <= 2) {
+          translateX = sign * (150 + (absX - 1) * 110);
+          scale = 0.85 - (absX - 1) * 0.2; // 0.85 to 0.65
+          blur = 1.5 + (absX - 1) * 2;
+          opacity = 0.8 - (absX - 1) * 0.5;
+          rotateY = -sign * 25;
+        } else {
+          translateX = sign * (260 + (absX - 2) * 90);
+          scale = 0.65 - (absX - 2) * 0.2; // 0.65 to 0.45
+          blur = 3.5 + (absX - 2) * 2;
+          opacity = Math.max(0, 0.3 - (absX - 2) * 0.3);
+          rotateY = -sign * 25;
+        }
+
+        slide.style.transform = `translateX(${translateX}px) scale(${scale}) perspective(1000px) rotateY(${rotateY}deg)`;
+        slide.style.filter = `blur(${blur}px)`;
+        slide.style.opacity = opacity;
+        slide.style.zIndex = zIndex;
+
+        if (absX < 0.5) {
+          slide.classList.add('active');
+        } else {
+          slide.classList.remove('active');
+        }
       });
+
+      // Update indicator based on nearest integer
+      if (cfCounter) {
+        let currentIndex = Math.round(progress) % totalSlides;
+        if (currentIndex < 0) currentIndex += totalSlides;
+        const num = String(currentIndex + 1).padStart(2, '0');
+        const total = String(totalSlides).padStart(2, '0');
+        cfCounter.textContent = `${num} / ${total}`;
+      }
+
+      animationFrameId = requestAnimationFrame(renderCoverFlow);
     }
 
-    let currentLightboxIndex = 0;
-
-    function updateIndicator(idx) {
-      if (galleryIndicator) {
-        const num = String(idx + 1).padStart(2, '0');
-        const total = String(galleryImages.length).padStart(2, '0');
-        galleryIndicator.textContent = `${num} / ${total}`;
+    function nextSlide() {
+      targetProgress = Math.ceil(targetProgress);
+      if (targetProgress - progress < 0.1) {
+          targetProgress += 1;
       }
     }
+
+    function prevSlide() {
+      targetProgress = Math.floor(targetProgress);
+      if (progress - targetProgress < 0.1) {
+          targetProgress -= 1;
+      }
+    }
+    
+    function startAutoPlay() {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      autoPlayInterval = setInterval(nextSlide, 3500);
+    }
+    
+    function resetAutoPlay() {
+      clearInterval(autoPlayInterval);
+      startAutoPlay();
+    }
+
+    document.getElementById('cfNext')?.addEventListener('click', () => {
+      nextSlide();
+      resetAutoPlay();
+    });
+    
+    document.getElementById('cfPrev')?.addEventListener('click', () => {
+      prevSlide();
+      resetAutoPlay();
+    });
+
+    cfSlides.forEach((slide, i) => {
+      slide.addEventListener('click', () => {
+        if (slide.classList.contains('active')) {
+          // Open Lightbox
+          openLightbox(i);
+        } else {
+          // Calculate distance to this slide
+          let diff = (i - progress) % totalSlides;
+          if (diff < -totalSlides / 2) diff += totalSlides;
+          if (diff > totalSlides / 2) diff -= totalSlides;
+          targetProgress += diff;
+          resetAutoPlay();
+        }
+      });
+      
+      slide.addEventListener('mouseenter', () => clearInterval(autoPlayInterval));
+      slide.addEventListener('mouseleave', startAutoPlay);
+    });
+
+    // Lightbox Logic
+    let currentLightboxIndex = 0;
 
     function openLightbox(index) {
       currentLightboxIndex = index;
@@ -536,35 +646,27 @@ document.addEventListener('DOMContentLoaded', () => {
       lightboxCaption.textContent = galleryImages[index].caption;
       lightboxModal.classList.add('active');
       document.body.style.overflow = 'hidden';
+      clearInterval(autoPlayInterval);
     }
 
     function closeLightbox() {
       lightboxModal.classList.remove('active');
       document.body.style.overflow = '';
+      resetAutoPlay();
     }
 
     function navigateLightbox(direction) {
-      currentLightboxIndex = (currentLightboxIndex + direction + galleryImages.length) % galleryImages.length;
+      currentLightboxIndex = (currentLightboxIndex + direction + totalSlides) % totalSlides;
       lightboxImage.src = galleryImages[currentLightboxIndex].src;
       lightboxImage.alt = galleryImages[currentLightboxIndex].caption;
       lightboxCaption.textContent = galleryImages[currentLightboxIndex].caption;
     }
 
-    // Click to open lightbox
-    gallerySlides.forEach(slide => {
-      slide.addEventListener('click', () => {
-        const idx = parseInt(slide.dataset.index);
-        openLightbox(idx);
-      });
-    });
-
-    // Close lightbox
     document.getElementById('lightboxClose')?.addEventListener('click', closeLightbox);
     lightboxModal.addEventListener('click', (e) => {
       if (e.target === lightboxModal) closeLightbox();
     });
 
-    // Lightbox navigation
     document.getElementById('lightboxPrev')?.addEventListener('click', (e) => {
       e.stopPropagation();
       navigateLightbox(-1);
@@ -574,35 +676,30 @@ document.addEventListener('DOMContentLoaded', () => {
       navigateLightbox(1);
     });
 
-    // Keyboard navigation
     document.addEventListener('keydown', (e) => {
-      if (!lightboxModal.classList.contains('active')) return;
-      if (e.key === 'Escape') closeLightbox();
-      if (e.key === 'ArrowLeft') navigateLightbox(-1);
-      if (e.key === 'ArrowRight') navigateLightbox(1);
+      if (lightboxModal.classList.contains('active')) {
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowLeft') navigateLightbox(-1);
+        if (e.key === 'ArrowRight') navigateLightbox(1);
+      } else {
+        // Allow arrow keys for cover flow if it's visible in viewport
+        const cfRect = document.querySelector('.coverflow-wrapper')?.getBoundingClientRect();
+        if (cfRect && cfRect.top >= 0 && cfRect.bottom <= window.innerHeight) {
+          if (e.key === 'ArrowLeft') {
+            prevSlide();
+            resetAutoPlay();
+          }
+          if (e.key === 'ArrowRight') {
+            nextSlide();
+            resetAutoPlay();
+          }
+        }
+      }
     });
 
-    // Gallery nav buttons (scroll the track manually)
-    let navIndex = 0;
-    const slideWidth = 380; // matches CSS
-
-    document.getElementById('galleryPrev')?.addEventListener('click', () => {
-      navIndex = (navIndex - 1 + galleryImages.length) % galleryImages.length;
-      galleryTrack.style.animation = 'none';
-      galleryTrack.style.transform = `translateX(-${navIndex * slideWidth}px)`;
-      galleryTrack.style.transition = 'transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-      updateIndicator(navIndex);
-    });
-
-    document.getElementById('galleryNext')?.addEventListener('click', () => {
-      navIndex = (navIndex + 1) % galleryImages.length;
-      galleryTrack.style.animation = 'none';
-      galleryTrack.style.transform = `translateX(-${navIndex * slideWidth}px)`;
-      galleryTrack.style.transition = 'transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-      updateIndicator(navIndex);
-    });
-
-    updateIndicator(0);
+    // Initialize
+    renderCoverFlow();
+    startAutoPlay();
   }
 
 });
