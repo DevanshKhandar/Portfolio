@@ -1293,3 +1293,92 @@ body.light-theme .cf-slide { box-shadow: 0 10px 30px rgba(0,0,0,0.15); border-co
   .scroll-gallery-slide { width: 260px; height: 200px; }
   .lightbox-nav-btn { width: 40px; height: 40px; }
 }
+
+/* ============================================================
+   MICRO-INTERACTIONS
+   ============================================================ */
+
+/* --- 1. Skill Tag Tooltips --- */
+.skill-tag {
+  position: relative;
+  cursor: default;
+}
+.skill-tag::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) translateY(6px);
+  background: rgba(0, 229, 255, 0.12);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 229, 255, 0.25);
+  color: var(--accent-cyan);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.5px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 100;
+}
+.skill-tag:not([data-tooltip])::after {
+  display: none;
+}
+.skill-tag[data-tooltip]:hover::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+body.light-theme .skill-tag::after {
+  background: rgba(2, 132, 199, 0.08);
+  border-color: rgba(2, 132, 199, 0.2);
+  color: #0284c7;
+}
+
+/* --- 2. Magnetic Buttons --- */
+.magnetic-btn {
+  transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  will-change: transform;
+}
+
+/* --- 3. Text Scramble --- */
+.preview-title {
+  font-family: var(--font-heading);
+  transition: none;
+}
+.preview-title.scrambling {
+  color: var(--accent-cyan);
+  text-shadow: 0 0 8px rgba(0, 229, 255, 0.3);
+}
+
+/* --- 4. Mobile Touch Optimizations --- */
+@media (max-width: 768px) {
+  /* Larger tap targets */
+  .project-list-item {
+    min-height: 52px;
+  }
+  .btn-outline, .cta-button {
+    min-height: 48px;
+    padding: 14px 28px;
+  }
+  /* Swipe hint on cover flow */
+  .cf-viewport {
+    cursor: grab;
+  }
+  .cf-viewport:active {
+    cursor: grabbing;
+  }
+  /* Disable hover effects on touch */
+  .skill-tag::after {
+    display: none !important;
+  }
+  /* Make tap-to-show tooltips for mobile */
+  .skill-tag.tooltip-visible::after {
+    display: block !important;
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}

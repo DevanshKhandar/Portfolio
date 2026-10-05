@@ -234,7 +234,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const projectListItems = document.querySelectorAll('.project-list-item');
   const previewPanels = document.querySelectorAll('.preview-panel');
 
-  function activateProject(index) {
+  let activateProject = function(index) {
     projectListItems.forEach(item => item.classList.remove('active'));
     previewPanels.forEach(panel => panel.classList.remove('active'));
 
@@ -243,7 +243,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (targetItem) targetItem.classList.add('active');
     if (targetPanel) targetPanel.classList.add('active');
-  }
+  };
 
   projectListItems.forEach(item => {
     item.addEventListener('mouseenter', () => {
@@ -697,9 +697,144 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
+    // Mobile swipe for cover flow
+    const isTouchForCF = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    if (isTouchForCF) {
+      const cfViewport = document.querySelector('.cf-viewport');
+      if (cfViewport) {
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let touchEndX = 0;
+        let isSwiping = false;
+
+        cfViewport.addEventListener('touchstart', (e) => {
+          touchStartX = e.changedTouches[0].screenX;
+          touchStartY = e.changedTouches[0].screenY;
+          isSwiping = true;
+        }, { passive: true });
+
+        cfViewport.addEventListener('touchmove', (e) => {
+          if (!isSwiping) return;
+          const diffX = Math.abs(e.changedTouches[0].screenX - touchStartX);
+          const diffY = Math.abs(e.changedTouches[0].screenY - touchStartY);
+          if (diffX > diffY && diffX > 10) {
+            e.preventDefault();
+          }
+        }, { passive: false });
+
+        cfViewport.addEventListener('touchend', (e) => {
+          if (!isSwiping) return;
+          isSwiping = false;
+          touchEndX = e.changedTouches[0].screenX;
+          const swipeDistance = touchEndX - touchStartX;
+          const minSwipe = 50;
+          if (Math.abs(swipeDistance) > minSwipe) {
+            if (swipeDistance < 0) { nextSlide(); resetAutoPlay(); }
+            else { prevSlide(); resetAutoPlay(); }
+          }
+        }, { passive: true });
+      }
+    }
+
     // Initialize
     renderCoverFlow();
     startAutoPlay();
   }
+
+  /* ============================================================
+     MICRO-INTERACTION 1: MAGNETIC BUTTONS
+     Buttons subtly pull toward the cursor when nearby.
+     ============================================================ */
+  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  if (!isTouchDevice) {
+    document.querySelectorAll('.magnetic-btn').forEach(btn => {
+      btn.addEventListener('mousemove', (e) => {
+        const rect = btn.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        const pullStrength = 0.3;
+        btn.style.transform = `translate(${x * pullStrength}px, ${y * pullStrength}px)`;
+      });
+      btn.addEventListener('mouseleave', () => {
+        btn.style.transform = 'translate(0, 0)';
+      });
+    });
+  }
+
+  /* ============================================================
+     MICRO-INTERACTION 2: TEXT SCRAMBLE ON PROJECT SWITCH
+     Project titles scramble through random chars before revealing.
+     ============================================================ */
+  const scrambleChars = '!<>-_\\/[]{}—=+*^?#_ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+  function textScramble(element, finalText) {
+    const length = finalText.length;
+    let iteration = 0;
+    const totalIterations = 8;
+    const interval = 25;
+
+    element.classList.add('scrambling');
+
+    const scrambleInterval = setInterval(() => {
+      element.textContent = finalText
+        .split('')
+        .map((char, index) => {
+          if (index < iteration) return finalText[index];
+          return scrambleChars[Math.floor(Math.random() * scrambleChars.length)];
+        })
+        .join('');
+
+      iteration += length / totalIterations;
+
+      if (iteration >= length) {
+        element.textContent = finalText;
+        element.classList.remove('scrambling');
+        clearInterval(scrambleInterval);
+      }
+    }, interval);
+  }
+
+  // Patch the existing activateProject function to add scramble
+  const originalActivateProject = activateProject;
+  activateProject = function(index) {
+    originalActivateProject(index);
+    const targetPanel = document.querySelector(`.preview-panel[data-preview="${index}"]`);
+    if (targetPanel) {
+      const titleEl = targetPanel.querySelector('.preview-title');
+      if (titleEl) {
+        const finalText = titleEl.textContent;
+        textScramble(titleEl, finalText);
+      }
+    }
+  };
+
+  /* ============================================================
+     MICRO-INTERACTION 3: MOBILE TOOLTIP TAP
+     On mobile, tapping a skill tag shows its tooltip briefly.
+     ============================================================ */
+  if (isTouchDevice) {
+    document.querySelectorAll('.skill-tag[data-tooltip]').forEach(tag => {
+      tag.addEventListener('click', (e) => {
+        e.preventDefault();
+        // Remove any other visible tooltips
+        document.querySelectorAll('.skill-tag.tooltip-visible').forEach(other => {
+          if (other !== tag) other.classList.remove('tooltip-visible');
+        });
+        tag.classList.toggle('tooltip-visible');
+        // Auto-hide after 2 seconds
+        setTimeout(() => tag.classList.remove('tooltip-visible'), 2000);
+      });
+    });
+
+    // Dismiss tooltips when tapping elsewhere
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.skill-tag')) {
+        document.querySelectorAll('.skill-tag.tooltip-visible').forEach(t => {
+          t.classList.remove('tooltip-visible');
+        });
+      }
+    });
+  }
+
 
 });
