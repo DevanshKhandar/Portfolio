@@ -5,6 +5,18 @@
 document.addEventListener('DOMContentLoaded', () => {
 
   /* ============================================================
+     0. PRELOADER — hide once all assets are ready
+     ============================================================ */
+  const preloader = document.getElementById('preloader');
+  window.addEventListener('load', () => {
+    if (preloader) preloader.classList.add('hidden');
+  });
+  // Fallback: hide after 4 seconds max even if load event is slow
+  setTimeout(() => {
+    if (preloader) preloader.classList.add('hidden');
+  }, 4000);
+
+  /* ============================================================
      1. CINEMATIC LAUNCH SEQUENCE - Real CanSat video
      ============================================================ */
   const overlay = document.getElementById('launchOverlay');
@@ -835,6 +847,22 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+  /* ============================================================
+     BACK TO TOP BUTTON
+     ============================================================ */
+  const backToTopBtn = document.getElementById('backToTop');
+  if (backToTopBtn) {
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 600) {
+        backToTopBtn.classList.add('visible');
+      } else {
+        backToTopBtn.classList.remove('visible');
+      }
+    }, { passive: true });
 
+    backToTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
 
 });
