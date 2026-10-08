@@ -1589,3 +1589,56 @@ body.light-theme .form-group textarea {
   border-color: rgba(0, 0, 0, 0.1);
   color: var(--bg-primary);
 }
+
+/* ============================================================
+   CUSTOM CURSOR
+   ============================================================ */
+@media (pointer: fine) {
+  body {
+    cursor: none;
+  }
+  .cursor-dot {
+    position: fixed;
+    top: 0; left: 0;
+    width: 6px;
+    height: 6px;
+    background-color: var(--accent-cyan);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 9999999;
+    box-shadow: 0 0 10px var(--accent-cyan);
+  }
+  .cursor-outline {
+    position: fixed;
+    top: 0; left: 0;
+    width: 40px;
+    height: 40px;
+    border: 1px solid rgba(0, 229, 255, 0.5);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 9999998;
+    transition: width 0.2s, height 0.2s;
+  }
+  body.light-theme .cursor-outline {
+    border-color: rgba(8, 145, 178, 0.5);
+  }
+  
+  /* When hovering clickable elements */
+  a:hover ~ .cursor-outline, 
+  button:hover ~ .cursor-outline, 
+  .project-item:hover ~ .cursor-outline,
+  .magnetic-btn:hover ~ .cursor-outline {
+    width: 60px;
+    height: 60px;
+    background-color: rgba(0, 229, 255, 0.05);
+    border-color: rgba(0, 229, 255, 0.8);
+  }
+  body.light-theme a:hover ~ .cursor-outline,
+  body.light-theme button:hover ~ .cursor-outline,
+  body.light-theme .project-item:hover ~ .cursor-outline {
+    background-color: rgba(8, 145, 178, 0.05);
+    border-color: rgba(8, 145, 178, 0.8);
+  }
+}

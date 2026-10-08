@@ -17,6 +17,40 @@ document.addEventListener('DOMContentLoaded', () => {
   }, 4000);
 
   /* ============================================================
+     CUSTOM DOM CURSOR
+     ============================================================ */
+  const cursorDot = document.getElementById('cursorDot');
+  const cursorOutline = document.getElementById('cursorOutline');
+  let cursorX = 0, cursorY = 0;
+  let outlineX = 0, outlineY = 0;
+  let cursorInitialized = false;
+
+  if (cursorDot && cursorOutline) {
+    document.addEventListener('mousemove', (e) => {
+      cursorX = e.clientX;
+      cursorY = e.clientY;
+      if (!cursorInitialized) {
+        outlineX = cursorX;
+        outlineY = cursorY;
+        cursorInitialized = true;
+      }
+      cursorDot.style.left = `${cursorX}px`;
+      cursorDot.style.top = `${cursorY}px`;
+    });
+
+    function animateCursorOutline() {
+      if (cursorInitialized) {
+        outlineX += (cursorX - outlineX) * 0.15;
+        outlineY += (cursorY - outlineY) * 0.15;
+        cursorOutline.style.left = `${outlineX}px`;
+        cursorOutline.style.top = `${outlineY}px`;
+      }
+      requestAnimationFrame(animateCursorOutline);
+    }
+    animateCursorOutline();
+  }
+
+  /* ============================================================
      1. CINEMATIC LAUNCH SEQUENCE - Real CanSat video
      ============================================================ */
   const overlay = document.getElementById('launchOverlay');
