@@ -747,16 +747,37 @@
             <span class="section-label reveal">Contact</span>
             <h2 class="section-title reveal delay-1">Let's <span class="gradient-text">Connect</span></h2>
             <div class="contact-card glass-card reveal delay-2">
-                <p class="body-text" style="text-align:center;max-width:500px;margin:0 auto 36px;">Interested in collaborating on robotics, embedded systems, or edge-AI? Let's build something remarkable.</p>
-                <div class="contact-links">
-                    <a href="mailto:devansh.khandar18@gmail.com" class="contact-link"><span class="contact-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px;"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span>devansh.khandar18@gmail.com</a>
-                    <a href="https://www.linkedin.com/in/devansh-khandar-9573a521a/" target="_blank" class="contact-link"><span class="contact-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px;"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></span>LinkedIn</a>
-                    <a href="https://github.com/devanshkhandar" target="_blank" class="contact-link"><span class="contact-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px;"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></span>GitHub</a>
+                <div class="terminal-form">
+                    <div class="form-header">
+                        <span class="form-title">OPEN CHANNEL</span>
+                        <span class="form-status">READY TO TRANSMIT</span>
+                    </div>
+                    <form id="contactForm" onsubmit="event.preventDefault(); const n = document.getElementById('senderName').value; const m = document.getElementById('senderMessage').value; window.location.href = 'mailto:devansh.khandar18@gmail.com?subject=New Contact from ' + encodeURIComponent(n) + '&body=' + encodeURIComponent(m); return false;">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="senderName">NAME</label>
+                                <input type="text" id="senderName" placeholder="Your name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="senderEmail">EMAIL</label>
+                                <input type="email" id="senderEmail" placeholder="you@company.com" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="senderMessage">MESSAGE</label>
+                            <textarea id="senderMessage" rows="4" placeholder="Tell me what we can build." required></textarea>
+                        </div>
+                        <div class="form-footer">
+                            <button type="submit" class="cta-button transmit-btn">TRANSMIT MESSAGE&rarr;</button>
+                            <span class="form-disclaimer">Opens your email client. No data is stored on a server.</span>
+                        </div>
+                    </form>
                 </div>
-                <div style="text-align:center;margin-top:36px;display:flex;justify-content:center;gap:16px;flex-wrap:wrap;">
-                    <a href="mailto:devansh.khandar18@gmail.com" class="cta-button">Send a Message</a>
-                    <a href="Devansh_Resume.pdf" download class="btn-outline btn-resume"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;margin-right:6px;vertical-align:middle;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Resume</a>
-                    <a href="https://drive.google.com/drive/folders/1wqJOQzIAMGZxPzpxnPG8Qfxp93nVoXsx?usp=drive_link" target="_blank" class="btn-outline">View Certificates</a>
+                
+                <div style="text-align:center;margin-top:48px;display:flex;justify-content:center;gap:16px;flex-wrap:wrap;">
+                    <a href="mailto:devansh.khandar18@gmail.com" class="cta-button">SEND A MESSAGE</a>
+                    <a href="Devansh_Resume.pdf" download class="btn-outline btn-resume"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;margin-right:6px;vertical-align:middle;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>RESUME</a>
+                    <a href="https://drive.google.com/drive/folders/1wqJOQzIAMGZxPzpxnPG8Qfxp93nVoXsx?usp=drive_link" target="_blank" class="btn-outline">VIEW CERTIFICATES</a>
                 </div>
 
             </div>
